@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
+  <link rel="stylesheet" href="croppr.css">
+  <script src="croppr.js" type="text/javascript" charset="utf-8"></script>
+  
+  <style>
+    #img{
+      max-width: 100%;
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+
+ <img src="/jay.jpg" alt="" width="400" id="img" >
+
+
+<script>
+const image = document.getElementById("img")
+  const crop = new Croppr(image)
+  
+  crop.resizeTo(320, 150)
+  
+  crop.moveTo(null, 30)
+  
+</script>
+</body>
+
+</html>

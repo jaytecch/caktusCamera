@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link rel="stylesheet" href="rcrop.css">
+<script src="jquery.js"></script>
+<script src="rcrop.min.js"></script>
+
+  <title>Document</title>
+<style>
+*{
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+
+}
+.box{
+  border: 2px solid #fff;
+ border-radius: 10px;
+box-shadow: 3px 3px 0px 800px rgba(0,0,0,0.3);
+  height: 150px;
+  width: 100%;
+  max-width: 320px;
+  min-width: 300px;
+ position:absolute;
+top: 30px;
+
+}
+
+.caktus-camera-wrapper{
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  z-index: 1;
+}
+#caktus-camera{
+  width: 100%;
+  height: 100vh;
+  background-color: #000;
+  
+}
+
+#startCam{
+  display: block;
+  margin: 0 auto;
+}
+
+#caktus-snap, .caktus-crop-btn{
+  height: 70px;
+  width: 70px;
+  border-radius: 35px;
+  background-color: #fff;
+  outline: 6px solid #CFD0D9;
+  
+}
+.caktus-snap-container{
+    position: absolute;
+    text-align: center;
+    bottom: 0;
+    padding-bottom: 60px;
+    z-index: 2;
+    width: 100%;
+}
+
+.caktus-pic-preview{
+position: fixed;
+  inset: 0;
+    z-index: 0;
+}
+
+#preview{
+  width: 100%;
+  height: 100%;
+  
+}
+
+.caktus-crop-btn{
+  background-color: #E910DD;
+  
+}
+
+#prev{
+  width: 100%;
+}
+
+
+#caktus-pic-preview .rcrop-outer-wrapper{
+    opacity: .75;
+}
+#caktus-pic-preview .rcrop-outer{
+    background: #000;
+}
+#caktus-pic-preview .rcrop-croparea-inner{
+    border: 1px dashed #fff;
+    border-radius: 10px;
+}
+
+#caktus-pic-preview .rcrop-handler-corner{
+    width:12px;
+    height: 12px;
+    background: none;
+    border : 0 solid #51aeff;
+}
+#caktus-pic-preview .rcrop-handler-top-left{
+    border-top-width: 4px;
+    border-left-width: 4px;
+    top:-2px;
+    left:-2px
+}
+#caktus-pic-preview .rcrop-handler-top-right{
+    border-top-width: 4px;
+    border-right-width: 4px;
+    top:-2px;
+    right:-2px
+}
+#caktus-pic-preview .rcrop-handler-bottom-right{
+    border-bottom-width: 4px;
+    border-right-width: 4px;
+    bottom:-2px;
+    right:-2px
+}
+#caktus-pic-preview .rcrop-handler-bottom-left{
+    border-bottom-width: 4px;
+    border-left-width: 4px;
+    bottom:-2px;
+    left:-2px
+}
+#caktus-pic-preview .rcrop-handler-border{
+    display: none;
+}
+
+
+#caktus-pic-preview .clayfy-touch-device.clayfy-handler{
+    background: none;
+    border : 0 solid #51aeff;
+    border-bottom-width: 6px;
+    border-right-width: 6px;
+}
+
+</style>
+</head>
+<body>
+  
+<div class="caktus-camera-wrapper">
+  <div class="box" id="caktus-focus-box">
+  
+</div>
+
+<div class="caktus-snap-container">
+  <button id="caktus-snap">
+    
+  </button>
+</div>
+<video id="caktus-camera">
+  
+</video>
+
+</div>
+
+<div class="caktus-pic-preview" id="caktus-pic-preview">
+<img alt=""  id="preview">
+<div class="caktus-snap-container">
+<button id="caktus-crop-btn" class="caktus-crop-btn">
+  <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#fff" class="bi bi-stars" viewBox="0 0 16 16">
+  <path d="M7.657 6.247c.11-.33.576-.33.686 0l.645 1.937a2.89 2.89 0 0 0 1.829 1.828l1.936.645c.33.11.33.576 0 .686l-1.937.645a2.89 2.89 0 0 0-1.828 1.829l-.645 1.936a.361.361 0 0 1-.686 0l-.645-1.937a2.89 2.89 0 0 0-1.828-1.828l-1.937-.645a.361.361 0 0 1 0-.686l1.937-.645a2.89 2.89 0 0 0 1.828-1.828l.645-1.937zM3.794 1.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387A1.734 1.734 0 0 0 4.593 5.69l-.387 1.162a.217.217 0 0 1-.412 0L3.407 5.69A1.734 1.734 0 0 0 2.31 4.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387A1.734 1.734 0 0 0 3.407 2.31l.387-1.162zM10.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.156 1.156 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.156 1.156 0 0 0-.732-.732L9.1 2.137a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732L10.863.1z"/>
+</svg>
+  
+</button>
+</div>
+</div>
+
+<img alt="" id="prev">
+<script>
+
+let imageCapture = null;
+let videoWidth = null;
+let videoHeight = null;
+let box = document.getElementById("caktus-focus-box")
+const camera = document.querySelector(".caktus-camera-wrapper")
+const preview = document.getElementById('preview')
+const cropPreview = document.querySelector(".caktus-pic-preview")
+
+
+//Box coordinates
+
+let boxX = null
+
+let boxY = null;
+
+let boxWidth  = null;
+
+  const getCameraResolution = ()=>{
+    const viewportHeight = window.innerHeight;
+    const screenHeight = window.screen.height
+    const viewportWidth = window.screen.width
+    
+    
+    const aspectRatio = viewportWidth/screenHeight
+    
+    const cameraWidth = viewportHeight/aspectRatio
+    
+    return {width: cameraWidth, height: viewportHeight}
+  }
+
+const {height, width} = getCameraResolution()
+
+
+  const openCam = async (videoElem)=>{
+    const MediaDevice = navigator?.mediaDevices
+    
+    if(!MediaDevice || !MediaDevice?.getUserMedia){
+      throw new Error("Can't Access Device Camera")
+    }
+    
+   
+    const constraints = {
+      video: {
+     width: {ideal: width}, 
+     height: {ideal: height}, 
+      facingMode: {
+        exact: "environment"
+      },
+      audio: false,
+    }
+    }
+    
+    const VideoStream = await MediaDevice.getUserMedia(constraints)
+    
+   const videoTrack = VideoStream.getVideoTracks()[0]
+    
+    
+     imageCapture = new ImageCapture(videoTrack)
+    
+    
+    if("srcObject" in videoElem){
+      videoElem.srcObject = VideoStream
+    }
+    else{
+      videoElem.src = URL.createObjectURL(VideoStream)
+    }
+    
+    videoElem.onloadedmetadata = ()=>{
+      videoElem.play()
+    videoHeight = videoElem.videoHeight
+    videoWidth = videoElem.videoWidth
+    }
+    
+  }
+
+
+
+const video = document.getElementById("caktus-camera")
+
+openCam(video)
+
+const caktusSnap = document.getElementById("caktus-snap")
+
+caktusSnap.addEventListener("click", async function(){
+  const blob = await imageCapture.grabFrame()
+
+const canvas = document.createElement("canvas")
+
+canvas.width = blob.width;
+canvas.height = blob.height;
+
+canvas.getContext('2d').drawImage(blob, 0, 0);
+  
+  boxX = box.offsetLeft
+  boxY= box.offsetTop
+  boxWidth = parseInt(getComputedStyle(box).width.replace("px", ""))
+  
+  
+  camera.style.display = "none"
+  
+  
+  const image = canvas.toDataURL()
+  
+  
+  
+  preview.src = image
+   
+   preview.onload = ()=>{ 
+   
+   $("#preview").rcrop({
+     minSize: [getCropWidth(300, blob.width), getCropHeight(150, blob.height)],
+   })
+  
+  $("#preview").on("rcrop-ready", function(){
+    
+    console.log(boxWidth, getCropWidth(boxWidth, blob.width))
+  
+     $("#preview").rcrop("resize", getCropWidth(boxWidth, blob.width), 150,
+    getCropWidth(boxX, blob.width), getCropHeight(boxY, blob.height)
+  )
+  
+
+  })
+ 
+  
+   }
+})
+
+
+
+document.getElementById("caktus-crop-btn").addEventListener("click", ()=>{
+  const src = $("#preview").rcrop('getDataURL')
+  $("#prev")[0].src = src
+  $("#preview").rcrop("destroy")
+  cropPreview.style.display= "none"
+})
+
+
+
+function getCropWidth(desiredWidth,imageWidth){
+  const viewportWidth = window.innerWidth
+  const scale = imageWidth / viewportWidth
+  const finalWidth = desiredWidth * scale
+  return finalWidth;
+}
+
+function getCropHeight(desiredHeight,imageHeight){
+  const viewportHeight = window.innerHeight
+  const scale = imageHeight / viewportHeight
+  const finalHeight = desiredHeight * scale
+  return finalHeight;
+}
+</script>
+
+
+</body>
+</html>
