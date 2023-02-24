@@ -1,35 +1,20 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title></title>
-  <link rel="stylesheet" href="croppr.css">
-  <script src="croppr.js" type="text/javascript" charset="utf-8"></script>
-  
-  <style>
-    #img{
-      max-width: 100%;
-      display: block;
-    }
-  </style>
+<meta charset='utf-8' />
+<script src='https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.4/index.global.min.js'></script>
+<script src='https://cdn.jsdelivr.net/npm/@fullcalendar/web-component@6.1.4/index.global.min.js'></script>
+<script src='https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.4/index.global.min.js'></script>
 </head>
-
 <body>
 
- <img src="/jay.jpg" alt="" width="400" id="img" >
+  <full-calendar shadow options='{
+    "headerToolbar": {
+      "left": "prev,next today",
+      "center": "title",
+      "right": "dayGridWeek,dayGridDay,"
+    }
+  }' />
 
-
-<script>
-const image = document.getElementById("img")
-  const crop = new Croppr(image)
-  
-  crop.resizeTo(320, 150)
-  
-  crop.moveTo(null, 30)
-  
-</script>
 </body>
-
 </html>
