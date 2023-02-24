@@ -20,7 +20,7 @@
   border: 2px solid #fff;
  border-radius: 10px;
 box-shadow: 3px 3px 0px 800px rgba(0,0,0,0.3);
-  height: 150px;
+  height: 180px;
   width: 100%;
   max-width: 320px;
   min-width: 300px;
@@ -78,7 +78,7 @@ position: fixed;
 }
 
 .caktus-crop-btn{
-  background-color: #E910DD;
+  background-color: #20FF04;
   
 }
 
@@ -88,13 +88,13 @@ position: fixed;
 
 
 #caktus-pic-preview .rcrop-outer-wrapper{
-    opacity: .75;
+    opacity: .3;
 }
 #caktus-pic-preview .rcrop-outer{
     background: #000;
 }
 #caktus-pic-preview .rcrop-croparea-inner{
-    border: 1px dashed #fff;
+    border: 3px dashed #20FF04;
     
 }
 
@@ -135,7 +135,7 @@ position: fixed;
 
 #caktus-pic-preview .clayfy-touch-device.clayfy-handler{
     background: none;
-    border : 0 solid #51aeff;
+    border : 0 solid #000;
     border-bottom-width: 6px;
     border-right-width: 6px;
 }
@@ -292,7 +292,7 @@ canvas.getContext('2d').drawImage(blob, 0, 0);
     
     console.log(boxWidth, getCropWidth(boxWidth, blob.width))
   
-     $("#preview").rcrop("resize", getCropWidth(boxWidth, blob.width), 150,
+     $("#preview").rcrop("resize", getCropWidth(boxWidth, blob.width), 180,
     getCropWidth(boxX, blob.width), getCropHeight(boxY, blob.height)
   )
   
