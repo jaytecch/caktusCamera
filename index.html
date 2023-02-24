@@ -94,7 +94,7 @@ position: fixed;
     background: #000;
 }
 #caktus-pic-preview .rcrop-croparea-inner{
-    border: 3px dashed #20FF04;
+    border: 3px dotted #fff;
     
 }
 
@@ -201,12 +201,13 @@ let boxWidth  = null;
     
     const aspectRatio = viewportWidth/screenHeight
     
-    const cameraWidth = viewportHeight/aspectRatio
+    const cameraWidth = viewportHeight/ aspectRatio
     
     return {width: cameraWidth, height: viewportHeight}
   }
 
 const {height, width} = getCameraResolution()
+
 
 
   const openCam = async (videoElem)=>{
@@ -219,7 +220,7 @@ const {height, width} = getCameraResolution()
    
     const constraints = {
       video: {
-     width: {ideal: width}, 
+     width: {ideal: width - 80}, 
      height: {ideal: height}, 
       facingMode: {
         exact: "environment"
@@ -247,6 +248,8 @@ const {height, width} = getCameraResolution()
       videoElem.play()
     videoHeight = videoElem.videoHeight
     videoWidth = videoElem.videoWidth
+    
+    alert(vide)
     }
     
   }
@@ -286,12 +289,13 @@ canvas.getContext('2d').drawImage(blob, 0, 0);
    preview.onload = ()=>{ 
    
    $("#preview").rcrop({
-     minSize: [getCropWidth(300, blob.width), getCropHeight(150, blob.height)],
+     minSize: [getCropWidth(300, blob.width), getCropHeight(180, blob.height)],
+     
    })
   
   $("#preview").on("rcrop-ready", function(){
     
-    console.log(boxWidth, getCropWidth(boxWidth, blob.width))
+    
   
      $("#preview").rcrop("resize", getCropWidth(boxWidth, blob.width), 180,
     getCropWidth(boxX, blob.width), getCropHeight(boxY, blob.height)
@@ -328,6 +332,7 @@ function getCropHeight(desiredHeight,imageHeight){
   const finalHeight = desiredHeight * scale
   return finalHeight;
 }
+
 </script>
 
 
