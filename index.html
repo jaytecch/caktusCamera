@@ -176,6 +176,7 @@ position: fixed;
 <img alt="" id="prev">
 <script>
 
+
 let imageCapture = null;
 let videoWidth = null;
 let videoHeight = null;
@@ -212,7 +213,9 @@ const {height, width} = getCameraResolution()
 
   const openCam = async (videoElem)=>{
     const MediaDevice = navigator?.mediaDevices
-    
+
+    const devices = (await MediaDevice.enumerateDevices())
+    console.log(devices.filter(i => i.kind === "videoinput")[1].getCapabilities())
     if(!MediaDevice || !MediaDevice?.getUserMedia){
       throw new Error("Can't Access Device Camera")
     }
@@ -228,13 +231,10 @@ const {height, width} = getCameraResolution()
       audio: false,
     }
     }
-    
     const VideoStream = await MediaDevice.getUserMedia(constraints)
     
    const videoTrack = VideoStream.getVideoTracks()[0]
     
-    
-     imageCapture = new ImageCapture(videoTrack)
     
     
     if("srcObject" in videoElem){
@@ -261,14 +261,14 @@ openCam(video)
 const caktusSnap = document.getElementById("caktus-snap")
 
 caktusSnap.addEventListener("click", async function(){
-  const blob = await imageCapture.grabFrame()
-
+  
 const canvas = document.createElement("canvas")
 
-canvas.width = blob.width;
-canvas.height = blob.height;
+canvas.width = video.videoWidth
 
-canvas.getContext('2d').drawImage(blob, 0, 0);
+canvas.height = video.videoHeight
+
+canvas.getContext('2d').drawImage(video, 0, 0);
   
   boxX = box.offsetLeft
   boxY= box.offsetTop
@@ -287,7 +287,7 @@ canvas.getContext('2d').drawImage(blob, 0, 0);
    preview.onload = ()=>{ 
    
    $("#preview").rcrop({
-     minSize: [getCropWidth(300, blob.width), getCropHeight(180, blob.height)],
+     minSize: [getCropWidth(300, canvas.width), getCropHeight(180, canvas.height)],
      
    })
   
@@ -295,8 +295,8 @@ canvas.getContext('2d').drawImage(blob, 0, 0);
     
     
   
-     $("#preview").rcrop("resize", getCropWidth(boxWidth, blob.width), 180,
-    getCropWidth(boxX, blob.width), getCropHeight(boxY, blob.height)
+     $("#preview").rcrop("resize", getCropWidth(boxWidth, canvas.width), 180,
+    getCropWidth(boxX, canvas.width), getCropHeight(boxY, canvas.height)
   )
   
 
