@@ -38,7 +38,8 @@ top: 150px;
 }
 #caktus-camera{
   width: 100%;
-  height: 100vh;
+  height: 100%;
+  object-fit: cover;
   background-color: #000;
   
 }
@@ -155,7 +156,7 @@ position: fixed;
     
   </button>
 </div>
-<video id="caktus-camera">
+<video id="caktus-camera" playsinline muted autoplay>
   
 </video>
 
@@ -212,10 +213,9 @@ const {height, width} = getCameraResolution()
 
 
   const openCam = async (videoElem)=>{
+   try{
     const MediaDevice = navigator?.mediaDevices
-
-    const devices = (await MediaDevice.enumerateDevices())
-    console.log(devices.filter(i => i.kind === "videoinput")[1].getCapabilities())
+    
     if(!MediaDevice || !MediaDevice?.getUserMedia){
       throw new Error("Can't Access Device Camera")
     }
@@ -234,22 +234,30 @@ const {height, width} = getCameraResolution()
     const VideoStream = await MediaDevice.getUserMedia(constraints)
     
    const videoTrack = VideoStream.getVideoTracks()[0]
-    
-    
+   
+   
     
     if("srcObject" in videoElem){
-      videoElem.srcObject = VideoStream
-    }
+      
+    videoElem.srcObject = VideoStream
+
+   }
     else{
-      videoElem.src = URL.createObjectURL(VideoStream)
+      
+     videoElem.src = URL.createObjectURL(VideoStream)
+      
     }
     
-    videoElem.onloadedmetadata = ()=>{
+    
+   videoElem.onloadedmetadata = ()=>{
       videoElem.play()
-    videoHeight = videoElem.videoHeight
-    videoWidth = videoElem.videoWidth
+    
     }
     
+  }
+  catch(error){
+    console.log(error)
+  }
   }
 
 
@@ -278,7 +286,7 @@ canvas.getContext('2d').drawImage(video, 0, 0);
   camera.style.display = "none"
   
   
-  const image = canvas.toDataURL()
+  const image = canvas.toDataURL("image/png")
   
   
   
